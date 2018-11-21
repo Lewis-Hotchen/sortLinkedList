@@ -19,6 +19,8 @@ namespace sortLinkedList
             Console.WriteLine(list);
             list.DeleteNode(new Node("James"));
             Console.WriteLine(list);
+            list.SortLinkedList();
+            Console.WriteLine(list);
             return;
         }
     }

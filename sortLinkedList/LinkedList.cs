@@ -28,14 +28,14 @@ namespace sortLinkedList
         {
             //Create node to be implemented
             Node node = new Node(data);
-            //Set the next node in the list the current first
+
             node.Next = First;
             //If the list is not empty set the current first's previous node to the new one
             if(First != null)
                 First.Prev = node;
+
             //Set the new node to the first
             First = node;
-            //Increment counter
             Count++;
             return node;
         }//InsertNode
@@ -45,8 +45,43 @@ namespace sortLinkedList
         /// </summary>
         public void SortLinkedList()
         {
-            
+            Node nodeL = First;
+            Node nodeH;
+            for(int index = 0; index < Count; index++)
+            {
+                for(int jindex = index + 1; jindex > 0; jindex--)
+                {
+                    nodeH = getNodeByCount(jindex);
+                    switch (nodeL.CompareTo(nodeH))
+                    {
+                        case 1:
+                            Node temp = nodeL;
+                            nodeL = nodeH;
+                            nodeH = temp;
+                            break;
+                    }//switch
+                }//for
+            }//for
         }//sortLinkedList
+
+        /// <summary>
+        /// Get the node in a linked list by an intermidiate index value
+        /// </summary>
+        /// <param name="count"></param>
+        /// <returns></returns>
+        public Node getNodeByCount(int count)
+        {
+            Node targetNode = First;
+            int target = 0;
+            while(target < count)
+            {
+                targetNode = targetNode.Next;
+                target++;
+            }//while
+            if (target == 0)
+                return First.Next;
+            return targetNode;
+        }//getNodeByCount
 
         /// <summary>
         /// Delete last node in the list
@@ -68,7 +103,7 @@ namespace sortLinkedList
             }
             Count--;
             return node;
-        }
+        }//DeleteNode
 
         /// <summary>
         /// Delete node at specified point (will delete First instance found)
@@ -94,7 +129,7 @@ namespace sortLinkedList
             }
             Count--;
             return node;
-        }
+        }//DeleteNode
 
         /// <summary>
         /// Insert a node after another specified node
@@ -116,7 +151,7 @@ namespace sortLinkedList
             newLink.Next = link.Next;
             link.Next = newLink;
             Count++;
-        }
+        }//InsertAfter
 
         /// <summary>
         /// Display contents of list
@@ -134,8 +169,8 @@ namespace sortLinkedList
             }
 
             return sb.ToString();
-        }
+        }//ToString
 
+    }//class
 
-    }
-}
+}//namespace
