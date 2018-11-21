@@ -45,13 +45,16 @@ namespace sortLinkedList
         /// </summary>
         public void SortLinkedList()
         {
-            Node nodeL = First;
+            Node nodeL;
             Node nodeH;
             for(int index = 0; index < Count; index++)
             {
                 for(int jindex = index + 1; jindex > 0; jindex--)
                 {
+                    nodeL = getNodeByCount(jindex - 1);
                     nodeH = getNodeByCount(jindex);
+                    if (nodeL == null || nodeH == null)
+                        return;
                     switch (nodeL.CompareTo(nodeH))
                     {
                         case 1:
@@ -69,17 +72,17 @@ namespace sortLinkedList
         /// </summary>
         /// <param name="count"></param>
         /// <returns></returns>
-        public Node getNodeByCount(int count)
+        public Node getNodeByCount(int target)
         {
             Node targetNode = First;
-            int target = 0;
-            while(target < count)
+            int count = 0;
+            while(count < target)
             {
                 targetNode = targetNode.Next;
-                target++;
+                count++;
             }//while
             if (target == 0)
-                return First.Next;
+                return First;
             return targetNode;
         }//getNodeByCount
 
