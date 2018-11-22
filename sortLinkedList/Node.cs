@@ -33,6 +33,10 @@ namespace sortLinkedList
                 return -1;
         }//CompareTo
 
+        public override string ToString()
+        {
+            return Name;
+        }
     }//Class
 
 }//Namespace

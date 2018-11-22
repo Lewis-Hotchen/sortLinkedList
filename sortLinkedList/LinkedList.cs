@@ -4,7 +4,7 @@ using System.Text;
 
 namespace sortLinkedList
 {
-    
+
     class LinkedList
     {
         public Node First { get; private set; } //First node in the linked list
@@ -31,7 +31,7 @@ namespace sortLinkedList
 
             node.Next = First;
             //If the list is not empty set the current first's previous node to the new one
-            if(First != null)
+            if (First != null)
                 First.Prev = node;
 
             //Set the new node to the first
@@ -45,46 +45,85 @@ namespace sortLinkedList
         /// </summary>
         public void SortLinkedList()
         {
+            Node targetI;
+            Node targetJ;
             Node nodeL;
             Node nodeH;
-            for(int index = 0; index < Count; index++)
+
+            targetI = First;
+            while (targetI != null)
             {
-                for(int jindex = index + 1; jindex > 0; jindex--)
+                if (checkSort())
+                    return;
+
+                targetJ = targetI.Next;
+                while (targetJ != null)
                 {
-                    nodeL = getNodeByCount(jindex - 1);
-                    nodeH = getNodeByCount(jindex);
-                    if (nodeL == null || nodeH == null)
-                        return;
+                    nodeL = targetI;
+                    nodeH = targetJ;
+
                     switch (nodeL.CompareTo(nodeH))
                     {
+                        //if NodeL is Higher than NodeH
                         case 1:
-                            Node temp = nodeL;
-                            nodeL = nodeH;
-                            nodeH = temp;
+                            Node temp = nodeH.Next;
+                            if (nodeH.Next == null)  //This means last in list
+                            {
+
+                            }
+                            else
+                            {
+                                if (nodeL.Prev == null)   //This means first in list
+                                {
+                                    //Set first node
+                                    First = nodeH;  
+                                    //Set the high nodes next node to the new previous
+                                    temp.Prev = nodeL;
+                                    //Set the low nodes next node to the highs next
+                                    nodeL.Next = nodeH.Next;
+                                    //Set the low node previous to high node
+                                    nodeL.Prev = nodeH;
+                                    //Set the high node next to low node
+                                    nodeH.Next = nodeL;
+                                    //Set the high node previous to null (first in list)
+                                    nodeH.Prev = null;
+                                    
+                                    targetI = targetI.Prev;
+                                }//if
+                                else
+                                {
+
+                                }
+                            }//if else
                             break;
-                    }//switch
-                }//for
-            }//for
+                    }
+                    targetJ = targetJ.Prev; //Decrement through list
+                }//while
+                targetI = targetI.Next; //Increment through list
+            }//while
         }//sortLinkedList
 
         /// <summary>
-        /// Get the node in a linked list by an intermidiate index value
+        /// check if the list is sorted
         /// </summary>
-        /// <param name="count"></param>
         /// <returns></returns>
-        public Node getNodeByCount(int target)
+        private bool checkSort()
         {
-            Node targetNode = First;
-            int count = 0;
-            while(count < target)
+            Node temp = First;
+            while (temp != null)
             {
-                targetNode = targetNode.Next;
-                count++;
+                if (temp.Next != null)
+                {
+
+                    if (temp.CompareTo(temp.Next) == 1)
+                    {
+                        return false;
+                    }//iff
+                    temp = temp.Next;
+                }//if
             }//while
-            if (target == 0)
-                return First;
-            return targetNode;
-        }//getNodeByCount
+            return true;
+        }//checkSort
 
         /// <summary>
         /// Delete last node in the list
@@ -95,10 +134,11 @@ namespace sortLinkedList
             Node node = First;
             while (node != null)
             {
-               if(node.Next != null)
+                if (node.Next != null)
                 {
                     node = node.Next;
-                } else
+                }
+                else
                 {
                     node.Prev.Next = null;
                     node = null;
@@ -120,12 +160,13 @@ namespace sortLinkedList
             Node node = First;
             while (node != null)
             {
-                if(node.CompareTo(link) == 0)
+                if (node.CompareTo(link) == 0)
                 {
                     node.Prev.Next = node.Next;
                     node.Next.Prev = node.Prev;
                     node = null;
-                } else
+                }
+                else
                 {
                     node = node.Next;
                 }
@@ -146,7 +187,7 @@ namespace sortLinkedList
 
             Node newLink = new Node(data);
             newLink.Prev = link;
-            if(link.Next != null)
+            if (link.Next != null)
             {
                 link.Next.Prev = newLink;
             }
@@ -165,7 +206,7 @@ namespace sortLinkedList
             Node node = First;
 
             StringBuilder sb = new StringBuilder();
-            while(node != null)
+            while (node != null)
             {
                 sb.Append("[" + node.Name + "]");
                 node = node.Next;
