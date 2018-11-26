@@ -9,15 +9,26 @@ namespace sortLinkedList
     {
         public Node First { get; private set; } //First node in the linked list
         public int Count { get; private set; }  //Count of nodes in the list
-
+        public Node Last;
         /// <summary>
         /// Constructor for linked list
         /// </summary>
         public LinkedList()
         {
             First = null;   //Set it to empty on instantiation of the list
+            Last = null;
             Count = 0;      //Initialise counter to 0
         }//Constructor
+
+        private void setLast()
+        {
+            Node temp = First;
+            while(temp != null)
+            {
+                temp = temp.Next;
+            }
+            Last = temp;
+        }
 
         /// <summary>
         /// Insert a new node to the front of the list
@@ -66,15 +77,23 @@ namespace sortLinkedList
                     {
                         //if NodeL is Higher than NodeH
                         case 1:
-                            Node temp = nodeH.Next;
                             if (nodeH.Next == null)  //This means last in list
                             {
+                                Node temp = nodeL.Next;
+                                Last = nodeL;
+                                temp.Prev = nodeL;
+                                nodeL.Next = nodeH.Next;
+                                nodeL.Prev = nodeH;
+                                nodeH.Next = nodeL;
+                                nodeL.Next = null;
 
+                                targetI = targetI.Prev;
                             }
                             else
                             {
                                 if (nodeL.Prev == null)   //This means first in list
                                 {
+                                    Node temp = nodeH.Next;
                                     //Set first node
                                     First = nodeH;  
                                     //Set the high nodes next node to the new previous
@@ -92,7 +111,7 @@ namespace sortLinkedList
                                 }//if
                                 else
                                 {
-
+                                  
                                 }
                             }//if else
                             break;
@@ -145,6 +164,7 @@ namespace sortLinkedList
                 }
             }
             Count--;
+            setLast();
             return node;
         }//DeleteNode
 
@@ -172,6 +192,7 @@ namespace sortLinkedList
                 }
             }
             Count--;
+            setLast();
             return node;
         }//DeleteNode
 
@@ -195,6 +216,7 @@ namespace sortLinkedList
             newLink.Next = link.Next;
             link.Next = newLink;
             Count++;
+            setLast();
         }//InsertAfter
 
         /// <summary>
